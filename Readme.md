@@ -1,6 +1,6 @@
 # Health AI Agent
 
-This repository provides an advanced insurance benefits analysis system powered by AI, designed to help users maximize their mental health and paramedical coverage. The system extracts, analyzes, and provides actionable recommendations based on insurance documents, with support for PDF extraction, benefit tracking, and AI-driven insights.
+This repository provides an advanced insurance benefits analysis system powered by AI. The system extracts, analyzes, and provides actionable recommendations based on insurance documents, with support for PDF extraction, benefit tracking, and AI-driven insights.
 
 ## Project Overview
 
@@ -121,5 +121,6 @@ graph TB
 This project has license implication
 
 ## Contact
+
 
 
