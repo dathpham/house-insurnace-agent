@@ -47,7 +47,7 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 
 
 SYSTEM_PROMPT_DATA_ENTRY = """You are a helpful insurance assistant. You can extract insurance profile information from text into a structured format."""
-SYSTEM_PROMPT_REVIEW_INSURANCE  = """You are a helpful insurance assistant. You will review the retrieved insurance plan and provide advice on how to maximize health benefits based on the insurance profile."""
+SYSTEM_PROMPT_REVIEW_INSURANCE  = """You are a helpful insurance assistant. You will review the retrieved insurance plan and provide advice on how to maximize home insurance based on the insurance profile."""
 
 system_instruction_data_entry = SystemMessage(content=SYSTEM_PROMPT_DATA_ENTRY)
 system_instruction_review_insurance = SystemMessage(content=SYSTEM_PROMPT_REVIEW_INSURANCE)
@@ -66,19 +66,14 @@ class Context(TypedDict):
 class InsuranceProfile(BaseModel):
     """Universal insurance profile structure"""
     member_name: str = Field(description="Plan member name")
-    benefit_type: str = Field(description="Type of benefit or type of service")
+    benefit_type: str = Field(description="Type of home insurnace or type of service")
     member_id: str = Field(description="Member ID number")
     policy_number: str = Field(description="Policy number")
     employer: Optional[str] = Field(description="Employer name if applicable", default=None)
     insurance_provider: str = Field(description="Insurance company name")
-    plan_type: str = Field(description="Plan type (PPO, HMO, etc.)")
+    plan_type: str = Field(description="Plan type ")
     benefit_period: str = Field(description="Coverage period")
-    annual_deductible: float = Field(description="Annual deductible amount", ge=0)
     out_of_pocket_maximum: float = Field(description="Annual out-of-pocket maximum", ge=0)
-    mental_health_sessions_max: int = Field(description="Max mental health sessions per year", ge=0)
-    mental_health_coverage_percent: float = Field(description="Mental health coverage percentage", ge=0, le=100)
-    prescription_coverage_percent: float = Field(description="Prescription coverage percentage", ge=0, le=100)
-    paramedical_benefits: Dict[str, Dict[str, int]] = Field(description="Paramedical benefits", default_factory=dict)
     location: str = Field(description="Member location")
 
 
@@ -99,13 +94,10 @@ class InsuranceProfile(BaseModel):
 class AnalyzedProfile(BaseModel):
     """Structured analysis of insurance profile"""
     better_plan_details: str = Field(description="Details of the better plan if available")
-    target_service: str = Field(description="Type of benefit or type of service (e.g.,  massage therapy, physiotherapy, chiropractic, acupuncture, therapist, osteopath")
     coverage: str = Field(description="How much the insurance covers")
     insurance_pays: str = Field(description="How much the insurance pays")
     your_cost: str = Field(description="How much you pay")
-    total_potential_cost: str = Field(description="Total potential cost of therapy sessions")
     annual_maximum: str = Field(description="Annual maximum coverage")
-    estimated_sessions_available: str = Field(description="Estimated number of sessions available based on coverage")
 
 
 @tool
@@ -185,7 +177,7 @@ def call_rag_model(state: AgentState):
 
     # state["messages"].append(system_instruction_review_insurance)
     # response = model_with_web_search.invoke([state["messages"]])
-    response = model_with_rag_search.with_structured_output(AnalyzedProfile).invoke("Compare the retrieved insurance plan and recommend the best insurance benefit that I can get?" + state["messages"][-2].content)
+    response = model_with_rag_search.with_structured_output(AnalyzedProfile).invoke("Compare the retrieved insurance plan and recommend the best insurance that I can get?" + state["messages"][-2].content)
     # We return a list, because this will get added to the existing list
     return {"messages": [response]}
 
