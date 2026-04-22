@@ -26,7 +26,7 @@ The workflow in `agent/graph.py` runs as a four-stage LangGraph pipeline that tu
 
 ```mermaid
 graph TB
-    subgraph Health Benefit WorkFlow
+    subgraph WorkFlow
         Input[Insurance PDF Input]
         DataEntry[Data Entry Agent]
         StructureOuput[Structured Output]
